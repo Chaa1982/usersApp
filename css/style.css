@@ -1,0 +1,36 @@
+body {
+    background: lightgrey;
+}
+
+main{
+    margin: auto;
+    text-align: center;
+    width: 400px;
+    min-height: 400px;
+}
+input, button {
+    font-size: 25px;
+    width: 350px;height: 35px;
+
+}
+
+#create{
+    background: green;
+    color: wheat;
+    width: 358px;
+    margin-bottom: 10px;
+}
+
+
+#create:hover{
+    background: rgb(93, 135, 7);
+    transition: all .3s linear;
+}
+.user-card{
+    margin: 5px 0;
+    margin: auto;
+    width: 357px;
+    min-height: 50px;
+    background: burlywood;
+    border: 2px solid grey;
+}
