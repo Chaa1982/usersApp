@@ -11,7 +11,15 @@ main{
 input, button {
     font-size: 25px;
     width: 350px;height: 35px;
-
+}
+#search-button{
+    width: 358px;
+    background: yellow;
+    transition: .3s linear;
+}
+#search-button:hover{
+    background: rgb(64, 91, 4);
+    color: white;
 }
 
 #create{
@@ -19,6 +27,7 @@ input, button {
     color: wheat;
     width: 358px;
     margin-bottom: 10px;
+    transition: .3s linear;
 }
 
 
