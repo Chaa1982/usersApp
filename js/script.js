@@ -4,19 +4,30 @@ const cityInput = document.querySelector("#city");
 const createButton = document.querySelector("#create");
 const usersSection = document.querySelector("#users-section");
 
-const users = [];
+let users = [];
 
-const renderUsers = () => {
+const deleteUser = (indexOfUser) => {
+    users = users.filter((el, i) => i !== indexOfUser);
+    renderUsers();
+}
+
+function renderUsers ()  {
     usersSection.innerHTML = "";
     usersContent = users.map((user) => `<div class="user-card">
         <p>${user.name}</p>
         <p>${user.age}</p>
-        <p>${user.city}</p>    
+        <p>${user.city}</p>
+        <button class="delete-user-button">Delete</button>        
     </div>`);
 
     usersContent.forEach((userLayout) => {
         usersSection.innerHTML += userLayout;
     });
+
+    const deleteButtons = [...document.querySelectorAll(".delete-user-button")];
+    deleteButtons.forEach((button, i) => {
+        button.onclick = () => deleteUser(i);
+    })
 }
 
 createButton.onclick = () => {
@@ -34,5 +45,4 @@ createButton.onclick = () => {
 
     renderUsers();
 }
-
 //first version
