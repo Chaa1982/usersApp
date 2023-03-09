@@ -65,12 +65,12 @@ createButton.onclick = () => {
     const city = cityInput.value;
     
     if(changingUser){
-        users = users.map((el, i) => {
-            if(i === changingUser.index){
-                return {name, age, city};
-            } else return el;
-            
-        });
+        users[changingUser.index] = {
+            name: name,
+            age: age,
+            city: city,
+        }
+
         changingUser = undefined;
         createButton.textContent = "Create User";
     }else{
