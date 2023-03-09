@@ -5,6 +5,7 @@ const createButton = document.querySelector("#create");
 const usersSection = document.querySelector("#users-section");
 const searchInput = document.querySelector("#search");
 const searchButton = document.querySelector("#search-button");
+const cancelSearchButton = document.querySelector("#cancel-search-button");
 
 let users = [
   //об'єкти добавлено у тесстовору режиміі, потім слід прибрати!!!!!!!!!!!!
@@ -63,4 +64,11 @@ searchButton.onclick = () => {
   );
   renderUsers(usersToRender);
 };
+
+cancelSearchButton.onclick = () => {
+    searchInput.value = "";
+    renderUsers(users);
+  };
+
+
 //27.23

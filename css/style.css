@@ -30,10 +30,18 @@ input, button {
     transition: .3s linear;
 }
 
-
 #create:hover{
     background: rgb(93, 135, 7);
     transition: all .3s linear;
+}
+
+.delete-user-button{
+    width: 100px;
+    background: #e6eeab;
+    transition: all .3s linear;
+}
+.delete-user-button:hover{
+    background: yellowgreen;
 }
 .user-card{
     margin: 5px 0;
