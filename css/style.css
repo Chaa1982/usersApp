@@ -59,3 +59,9 @@ input, button {
 input {
     outline: none;
 }
+
+#sort-by-name,
+#sort-by-age{
+    width: 20px;
+    height: 20px;
+}

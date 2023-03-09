@@ -4,13 +4,15 @@ const cityInput = document.querySelector("#city");
 const createButton = document.querySelector("#create");
 const usersSection = document.querySelector("#users-section");
 const searchInput = document.querySelector("#search");
+const sortByName = document.querySelector("#sort-by-name");
+const sortByAge = document.querySelector("#sort-by-age");
 
 
 let users = [
   //об'єкти добавлено у тесстовору режиміі, потім слід прибрати!!!!!!!!!!!!
-    { name: "Max", age: 20, city: "Lviv" },
+    { name: "Max", age: 50, city: "Lviv" },
     { name: "Olga", age: 20, city: "Kharkiv" },
-    { name: "Mila", age: 40, city: "Odesa" },
+    { name: "Alla", age: 10, city: "Odesa" },
 ];
 
 let changingUser = undefined; //змінна для коримтувача, який змінюємо
@@ -30,6 +32,22 @@ function editUser(indexOfUser) {
     nameInput.value = changingUser.data.name;
     ageInput.value = changingUser.data.age;
     cityInput.value = changingUser.data.city;
+}
+
+const sortingName = {
+    names: () => {
+        const usersCopy = [...users];
+        usersCopy.sort((user1, user2) => user1.name.localeCompare(user2.name));
+        renderUsers(usersCopy);
+    }
+}
+
+const sortingAge = {
+    ages: () => {
+        const usersCopy = [...users];
+        usersCopy.sort((user1, user2) => user1.age - user2.age);
+        renderUsers(usersCopy);
+    }
 }
 
 function renderUsers(usersToRender) {
@@ -95,6 +113,16 @@ searchInput.oninput =  (event) => {
     renderUsers(usersToRender);
 };
 
+sortByName.onchange = (event) => {
+    if(event.target.checked) { //нажатий чи ні?
+        sortingName.names();
+    }else renderUsers(users);
+}
 
+sortByAge.onchange = (event) => {
+    if(event.target.checked) { //нажатий чи ні?
+        sortingAge.ages();
+    }else renderUsers(users);
+}
 
 
