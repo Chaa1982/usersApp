@@ -4,8 +4,7 @@ const cityInput = document.querySelector("#city");
 const createButton = document.querySelector("#create");
 const usersSection = document.querySelector("#users-section");
 const searchInput = document.querySelector("#search");
-const searchButton = document.querySelector("#search-button");
-const cancelSearchButton = document.querySelector("#cancel-search-button");
+
 
 let users = [
   //об'єкти добавлено у тесстовору режиміі, потім слід прибрати!!!!!!!!!!!!
@@ -58,17 +57,18 @@ createButton.onclick = () => {
   renderUsers(users);
 };
 
-searchButton.onclick = () => {
-  const usersToRender = users.filter((user) =>
-    user.name.includes(searchInput.value)
-  );
-  renderUsers(usersToRender);
+// searchButton.onclick = () => {
+//   
+//   
+// };
+
+searchInput.oninput =  (event) => {
+    const usersToRender = users.filter((user) =>
+     user.name.includes(searchInput.value)
+     );
+    renderUsers(usersToRender);
 };
 
-cancelSearchButton.onclick = () => {
-    searchInput.value = "";
-    renderUsers(users);
-  };
 
 
-//27.23
+//00.48

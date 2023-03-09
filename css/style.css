@@ -51,3 +51,7 @@ input, button {
     background: burlywood;
     border: 2px solid grey;
 }
+
+input {
+    outline: none;
+}
