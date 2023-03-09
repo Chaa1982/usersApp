@@ -57,18 +57,13 @@ createButton.onclick = () => {
   renderUsers(users);
 };
 
-// searchButton.onclick = () => {
-//   
-//   
-// };
-
 searchInput.oninput =  (event) => {
     const usersToRender = users.filter((user) =>
-     user.name.includes(searchInput.value)
+     user.name.includes(searchInput.value) || user.age.toString().includes(searchInput.value) || user.city.includes(searchInput.value)
      );
     renderUsers(usersToRender);
 };
 
 
 
-//00.48
+
