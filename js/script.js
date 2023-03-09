@@ -42,25 +42,28 @@ function renderUsers(usersToRender) {
 }
 
 createButton.onclick = () => {
-  const name = nameInput.value;
-  const age = +ageInput.value;
-  const city = cityInput.value;
-  console.log(name, age, city);
+    const name = nameInput.value;
+    const age = +ageInput.value;
+    const city = cityInput.value;
+    console.log(name, age, city);
 
-  const user = { name, age, city };
-  users.push(user);
+    const user = { name, age, city };
+    users.push(user);
 
-  nameInput.value = "";
-  ageInput.value = "";
-  cityInput.value = "";
+    nameInput.value = "";
+    ageInput.value = "";
+    cityInput.value = "";
 
-  renderUsers(users);
+    renderUsers(users);
 };
 
 searchInput.oninput =  (event) => {
-    const usersToRender = users.filter((user) =>
-     user.name.includes(searchInput.value) || user.age.toString().includes(searchInput.value) || user.city.includes(searchInput.value)
-     );
+    //більш сучасна реалізація пошук: у фільтер передаємо деструкторизаваного юзера і змінні закидуємо у масив,
+    //та відразу через метод some передаємо елемет і у ньому перевіряємо строку
+    const usersToRender = users.filter(
+        ({name, age, city}) => [name, age.toString(), city].some((element) =>
+        element.includes(event.target.value))
+    );
     renderUsers(usersToRender);
 };
 
