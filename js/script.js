@@ -42,21 +42,19 @@ function editUser(indexOfUser) {
   cityInput.value = changingUser.data.city;
 }
 
-const sortingName = {
+const sorting = {
   names: () => {
     const usersCopy = [...users];
     usersCopy.sort((user1, user2) => user1.name.localeCompare(user2.name));
     renderUsers(usersCopy);
   },
-};
-
-const sortingAge = {
   ages: () => {
     const usersCopy = [...users];
     usersCopy.sort((user1, user2) => user1.age - user2.age);
     renderUsers(usersCopy);
   },
 };
+
 
 function renderUsers(usersToRender) {
   usersSection.innerHTML = "";
@@ -126,15 +124,15 @@ searchInput.oninput = (event) => {
 
 sortByName.onchange = (event) => {
   if (event.target.checked) {
-    //нажатий чи ні?
-    sortingName.names();
+    sorting.names();//нажатий чи ні?
+    sortByAge.checked = false;
   } else renderUsers(users);
 };
 
 sortByAge.onchange = (event) => {
   if (event.target.checked) {
-    //нажатий чи ні?
-    sortingAge.ages();
+    sorting.ages();//нажатий чи ні?
+    sortByName.checked = false;
   } else renderUsers(users);
 };
 
