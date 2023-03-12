@@ -6,12 +6,14 @@ const usersSection = document.querySelector("#users-section");
 const searchInput = document.querySelector("#search");
 const sortByName = document.querySelector("#sort-by-name");
 const sortByAge = document.querySelector("#sort-by-age");
+const paginationSection = document.querySelector("#pagination");
 
 let users = [
   //об'єкти добавлено у тесстовору режиміі, потім слід прибрати!!!!!!!!!!!!
   { name: "Max", age: 50, city: "Lviv" },
   { name: "Olga", age: 20, city: "Kharkiv" },
   { name: "Alla", age: 10, city: "Odesa" },
+  { name: "Artur", age: 45, city: "Riga" },
   { name: "Max", age: 50, city: "Lviv" },
   { name: "Olga", age: 20, city: "Kharkiv" },
   { name: "Alla", age: 10, city: "Odesa" },
@@ -21,9 +23,33 @@ let users = [
   { name: "Max", age: 50, city: "Lviv" },
   { name: "Olga", age: 20, city: "Kharkiv" },
   { name: "Alla", age: 10, city: "Odesa" },
+  { name: "Oleksandr", age: 15, city: "Kriviy rig" },
 ];
+//homework_09.03.2023=======================================
+function addInnerArr(arr) {
+  let newArray = [];
+  let innerArray = [];
+  for (let i = 0; i <= arr.length; i += 3) {
+    if(i < arr.length-3){
+      for(let j = i; j < i+3; ++j){
+        innerArray.push(arr[j]);
+      }
+    }
+    else{
+      for(let j = i; j < arr.length; ++j){
+        innerArray.push(arr[j]);
+      }
+    }
+    newArray.push(innerArray);
+    innerArray = [];
+  }
+  return newArray;
+}
+console.log(addInnerArr(users));
+//==========================================================
 
 let changingUser = undefined; //змінна для коримтувача, який змінюємо
+let paginationpageNumber = 0;
 
 renderUsers(users); //визвав у тестовому режимі, потім слід прибрати!!!!!!!!!!!!
 
@@ -42,6 +68,18 @@ function editUser(indexOfUser) {
   cityInput.value = changingUser.data.city;
 }
 
+function renderPagination(usersQuontity) {
+  for (let i = 0; i < usersQuontity / 3; ++i) {
+    const button = document.createElement("button");
+    button.textContent = i;
+    button.className = "pagination-btn";
+    button.onclick = () => {
+      paginationpageNumber = i;
+    };
+    paginationSection.appendChild(button);
+  }
+}
+
 const sorting = {
   names: () => {
     const usersCopy = [...users];
@@ -54,7 +92,6 @@ const sorting = {
     renderUsers(usersCopy);
   },
 };
-
 
 function renderUsers(usersToRender) {
   usersSection.innerHTML = "";
@@ -81,6 +118,8 @@ function renderUsers(usersToRender) {
   editButton.forEach((button, i) => {
     button.onclick = () => editUser(i);
   });
+
+  renderPagination(users.length);
 }
 
 createButton.onclick = () => {
@@ -124,18 +163,14 @@ searchInput.oninput = (event) => {
 
 sortByName.onchange = (event) => {
   if (event.target.checked) {
-    sorting.names();//нажатий чи ні?
+    sorting.names(); //нажатий чи ні?
     sortByAge.checked = false;
   } else renderUsers(users);
 };
 
 sortByAge.onchange = (event) => {
   if (event.target.checked) {
-    sorting.ages();//нажатий чи ні?
+    sorting.ages(); //нажатий чи ні?
     sortByName.checked = false;
   } else renderUsers(users);
 };
-
-
-
-

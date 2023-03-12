@@ -65,3 +65,15 @@ input {
     width: 20px;
     height: 20px;
 }
+
+.pagination-btn{
+    width: 25px;
+    height: 25px;
+    font-size: 15px;
+    margin: 0 1px;
+}
+.pagination-btn:hover{
+    background: yellow;
+    color:blue;
+     
+}
