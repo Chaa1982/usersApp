@@ -14,48 +14,26 @@ let users = [
   { name: "Olga", age: 20, city: "Kharkiv" },
   { name: "Alla", age: 10, city: "Odesa" },
   { name: "Artur", age: 45, city: "Riga" },
+  { name: "Olga", age: 20, city: "Kharkiv" },
+  { name: "Max", age: 50, city: "Lviv" },
+  { name: "Olga", age: 20, city: "Kharkiv" },
   { name: "Max", age: 50, city: "Lviv" },
   { name: "Olga", age: 20, city: "Kharkiv" },
   { name: "Alla", age: 10, city: "Odesa" },
-  { name: "Max", age: 50, city: "Lviv" },
-  { name: "Olga", age: 20, city: "Kharkiv" },
-  { name: "Alla", age: 10, city: "Odesa" },
-  { name: "Max", age: 50, city: "Lviv" },
-  { name: "Olga", age: 20, city: "Kharkiv" },
-  { name: "Alla", age: 10, city: "Odesa" },
+  { name: "Bohdan", age: 17, city: "Luck" },
   { name: "Oleksandr", age: 15, city: "Kriviy rig" },
+  { name: "Denis", age: 31, city: "Krapivnitskiy" },
 ];
-//homework_09.03.2023=======================================
-function addInnerArr(arr) {
-  let newArray = [];
-  let innerArray = [];
-  for (let i = 0; i <= arr.length; i += 3) {
-    if(i < arr.length-3){
-      for(let j = i; j < i+3; ++j){
-        innerArray.push(arr[j]);
-      }
-    }
-    else{
-      for(let j = i; j < arr.length; ++j){
-        innerArray.push(arr[j]);
-      }
-    }
-    newArray.push(innerArray);
-    innerArray = [];
-  }
-  return newArray;
-}
-console.log(addInnerArr(users));
-//==========================================================
 
 let changingUser = undefined; //змінна для коримтувача, який змінюємо
 let paginationpageNumber = 0;
 
-renderUsers(users); //визвав у тестовому режимі, потім слід прибрати!!!!!!!!!!!!
+renderUsers(); //визвав у тестовому режимі, потім слід прибрати!!!!!!!!!!!!
+renderPagination(users.length);
 
 const deleteUser = (indexOfUser) => {
   users = users.filter((el, i) => i !== indexOfUser);
-  renderUsers(users);
+  renderUsers();
 };
 
 function editUser(indexOfUser) {
@@ -69,16 +47,18 @@ function editUser(indexOfUser) {
 }
 
 function renderPagination(usersQuontity) {
-  for (let i = 0; i < usersQuontity / 3; ++i) {
+  paginationSection.innerHTML = "";
+  for (let i = 0; i < usersQuontity / 3; i++) {
     const button = document.createElement("button");
     button.textContent = i;
     button.className = "pagination-btn";
     button.onclick = () => {
       paginationpageNumber = i;
+      renderUsers();
     };
     paginationSection.appendChild(button);
   }
-}
+};
 
 const sorting = {
   names: () => {
@@ -93,8 +73,10 @@ const sorting = {
   },
 };
 
-function renderUsers(usersToRender) {
+function renderUsers(usersToRender = addInnerArr(users, 3)[paginationpageNumber]) {
+  renderPagination(users.length)
   usersSection.innerHTML = "";
+
   usersContent = usersToRender.map(
     (user) => `<div class="user-card">
         <p>${user.name}</p>
@@ -118,8 +100,6 @@ function renderUsers(usersToRender) {
   editButton.forEach((button, i) => {
     button.onclick = () => editUser(i);
   });
-
-  renderPagination(users.length);
 }
 
 createButton.onclick = () => {
@@ -135,6 +115,7 @@ createButton.onclick = () => {
         age: age,
         city: city,
       };
+
       changingUser = undefined;
       createButton.textContent = "Create User";
     } else {
@@ -146,12 +127,13 @@ createButton.onclick = () => {
     ageInput.value = "";
     cityInput.value = "";
 
-    renderUsers(users);
+    renderUsers();
   }
 };
 
 searchInput.oninput = (event) => {
-  //більш сучасна реалізація пошук: у фільтер передаємо деструкторизаваного юзера і змінні закидуємо у масив,
+  if(!event.target.value) return renderUsers();
+  //більш сучасна реалізація пошук: у фільтeр передаємо деструкторизаваного юзера і змінні закидуємо у масив,
   //та відразу через метод some передаємо елемет і у ньому перевіряємо строку
   const usersToRender = users.filter(({ name, age, city }) =>
     [name, age.toString(), city].some((element) =>
@@ -165,12 +147,25 @@ sortByName.onchange = (event) => {
   if (event.target.checked) {
     sorting.names(); //нажатий чи ні?
     sortByAge.checked = false;
-  } else renderUsers(users);
+  } else{
+    renderUsers(users);
+  } 
 };
 
 sortByAge.onchange = (event) => {
   if (event.target.checked) {
     sorting.ages(); //нажатий чи ні?
     sortByName.checked = false;
-  } else renderUsers(users);
+  } else {
+    renderUsers(users);
+  } 
 };
+
+function addInnerArr(arr, step) {
+  const result = [];
+
+  for(let i = 0; i < arr.length; i++){
+    result.push(arr.slice(i * step, (i+1)*step));
+  }
+  return result.filter(mass => mass.length > 0);
+}

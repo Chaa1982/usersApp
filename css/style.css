@@ -12,12 +12,13 @@ input, button {
     font-size: 25px;
     width: 350px;height: 35px;
 }
-#search-button{
-    width: 358px;
-    background: yellow;
+#search{
+    width: 353px;
+    text-align: center;
+    background: rgb(225, 225, 162);
     transition: .3s linear;
 }
-#search-button:hover{
+#search:hover{
     background: rgb(64, 91, 4);
     color: white;
 }s
