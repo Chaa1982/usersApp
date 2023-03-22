@@ -10,20 +10,30 @@ const paginationSection = document.querySelector("#pagination");
 
 let users = [
   //об'єкти добавлено у тесстовору режиміі, потім слід прибрати!!!!!!!!!!!!
-  { name: "Max", age: 50, city: "Lviv" },
-  { name: "Olga", age: 20, city: "Kharkiv" },
-  { name: "Alla", age: 10, city: "Odesa" },
-  { name: "Artur", age: 45, city: "Riga" },
-  { name: "Olga", age: 20, city: "Kharkiv" },
-  { name: "Max", age: 50, city: "Lviv" },
-  { name: "Olga", age: 20, city: "Kharkiv" },
-  { name: "Max", age: 50, city: "Lviv" },
-  { name: "Olga", age: 20, city: "Kharkiv" },
-  { name: "Alla", age: 10, city: "Odesa" },
-  { name: "Bohdan", age: 17, city: "Luck" },
-  { name: "Oleksandr", age: 15, city: "Kriviy rig" },
-  { name: "Denis", age: 31, city: "Krapivnitskiy" },
+  { id: generateId(), name: "Max", age: 50, city: "Lviv" },
+  { id: generateId(), name: "Olga", age: 20, city: "Kharkiv" },
+  { id: generateId(), name: "Alla", age: 10, city: "Odesa" },
+  { id: generateId(), name: "Artur", age: 45, city: "Riga" },
+  { id: generateId(), name: "Olga", age: 20, city: "Kharkiv" },
+  { id: generateId(), name: "Max", age: 50, city: "Lviv" },
+  { id: generateId(), name: "Olga", age: 20, city: "Kharkiv" },
+  { id: generateId(), name: "Max", age: 50, city: "Lviv" },
+  { id: generateId(), name: "Olga", age: 20, city: "Kharkiv" },
+  { id: generateId(), name: "Alla", age: 10, city: "Odesa" },
+  { id: generateId(), name: "Bohdan", age: 17, city: "Luck" },
+  { id: generateId(), name: "Oleksandr", age: 15, city: "Kriviy rig" },
+  { id: generateId(), name: "Denis", age: 31, city: "Krapivnitskiy" },
 ];
+
+function generateId(length = 10) {
+  let id = "";
+  const symbols = "0123456789qwertyuiopasdfghjklzxcvbnm";
+  for(let i = 0; i < length; ++i){
+    id += symbols[Math.floor(Math.random() * symbols.length)];
+  }
+  return id;
+}
+console.log(generateId());
 
 let changingUser = undefined; //змінна для коримтувача, який змінюємо
 let paginationpageNumber = 0;
@@ -31,20 +41,22 @@ let paginationpageNumber = 0;
 renderUsers(); //визвав у тестовому режимі, потім слід прибрати!!!!!!!!!!!!
 renderPagination(users.length);
 
-const deleteUser = (indexOfUser) => {
-  users = users.filter((el, i) => i !== indexOfUser);
+const deleteUser = (userId) => {
+  users = users.filter((user) => user.id !== userId);
   renderUsers();
 };
 
-function editUser(indexOfUser) {
-  changingUser = { data: users[indexOfUser], index: indexOfUser };
+const editUser = (userId) => {
+  const userToEdit = users.find((user) => user.id === userId);
+  const indexOfEditingUser = users.findIndex((user) => user.id === userId);
+  changingUser = { data: userToEdit, index: indexOfEditingUser };
 
   createButton.textContent = "Save changes";
 
   nameInput.value = changingUser.data.name;
   ageInput.value = changingUser.data.age;
   cityInput.value = changingUser.data.city;
-}
+};
 
 function renderPagination(usersQuontity) {
   paginationSection.innerHTML = "";
@@ -82,8 +94,8 @@ function renderUsers(usersToRender = addInnerArr(users, 3)[paginationpageNumber]
         <p>${user.name}</p>
         <p>${user.age}</p>
         <p>${user.city}</p>
-        <button class="delete-user-button">Delete</button>              
-        <button class="edit-user-button">Edit</button>        
+        <button class="delete-user-button" id="${user.id}">Delete</button>              
+        <button class="edit-user-button" id="${user.id}">Edit</button>        
     </div>`
   );
 
@@ -92,13 +104,13 @@ function renderUsers(usersToRender = addInnerArr(users, 3)[paginationpageNumber]
   });
 
   const deleteButtons = [...document.querySelectorAll(".delete-user-button")];
-  deleteButtons.forEach((button, i) => {
-    button.onclick = () => deleteUser(i);
+  deleteButtons.forEach((button) => {
+    button.onclick = () => deleteUser(button.id);
   });
 
   const editButton = [...document.querySelectorAll(".edit-user-button")];
-  editButton.forEach((button, i) => {
-    button.onclick = () => editUser(i);
+  editButton.forEach((button) => {
+    button.onclick = () => editUser(button.id);
   });
 }
 
@@ -108,18 +120,23 @@ createButton.onclick = () => {
   const city = cityInput.value;
   if (!name || !age || !city) {
     return alert("User empty");
+
   } else {
     if (changingUser) {
+
+      // const userToChangeIndex = 
       users[changingUser.index] = {
+        ...users[changingUser.index],
         name: name,
         age: age,
         city: city,
+        //id: users[changingUser.index],//замість спредюоператора могли написати так
       };
 
       changingUser = undefined;
       createButton.textContent = "Create User";
     } else {
-      const user = { name, age, city };
+      const user = { id: generateId(), name, age, city };
       users.push(user);
     }
 
